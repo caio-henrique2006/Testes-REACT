@@ -16,32 +16,32 @@ const elementFilho = (
   </div>
 );
 
+function Greetings(props){
+  return <h1>Hello, my name is {props.name}. I was born in {props.birth}</h1>
+}
+
+function AllGreetings(){
+  return (
+    <div>
+      <Greetings name="Caio Henrique" birth="01/06/2006"/>
+      <Greetings name="Kátia Almeida" birth="21/02/1973"/>
+      <Greetings name="Ian Vitor" birth="28/01/2000"/>
+    </div>
+  )
+}
+
+const greet = <Greetings name="Caio Henrique" birth="01/06/2006"/>;
+
 const image = <img src="favicon.ico"/>;
 
 /*
-const element = (
-  <h1 className="greeting">
-    Hello, world!
-  </h1>
-);
-
-const element = React.createElement(
-  'h1',
-  {className: 'greeting'},
-  'Hello, world!'
-); // Os dois códigos são equivalentes, porém o segundo usa um Elemento REACT;
-
-// Nota: esta estrutura está simplificada
-const element = {
-  type: 'h1',
-  props: {
-    className: 'greeting',
-    children: 'Hello, world!'
+class greetings extends React.Component {
+  render(){
+    <h1>Hello, my name is {props.name}</h1>
   }
-};*/ // O segundo é compilado neste último código;
-
+}*/
 
 ReactDOM.render(
-	image,
+	greet,
 	document.getElementById('root')
 );
