@@ -32,6 +32,7 @@ function AllGreetings(){
 
 const greet = <Greetings name="Caio Henrique" birth="01/06/2006"/>;
 
+//***************************************************************************************
 const image = <img src="favicon.ico"/>;
 
 /*
@@ -40,7 +41,7 @@ class greetings extends React.Component {
     <h1>Hello, my name is {props.name}</h1>
   }
 }*/
-
+//*****************************************************************************
 class Clock extends React.Component {
   constructor(props) {
     super(props);
@@ -86,8 +87,38 @@ function App() {
     </div>
   );
 }
+//***********************************************************************
+function HandleClick() {
+  return(
+  <button onClick={Greetings}>
+    press
+  </button>
+  )
+}
+//********************************************************************
+function UserGreeting(props) {
+  return <h1>Welcome back!</h1>;
+}
+
+function GuestGreeting(props) {
+  return <h1>Please sign up.</h1>;
+}
+
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return <UserGreeting />;
+  }
+  return <GuestGreeting />;
+}
+/*
+ReactDOM.render(
+  // Try changing to isLoggedIn={true}:
+  <Greeting isLoggedIn={true} />,
+  document.getElementById('root')
+);*/
 
 ReactDOM.render(
-	<App/>,
+	<HandleClick/>,
 	document.getElementById('root')
 );
