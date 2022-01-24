@@ -1,101 +1,134 @@
+// Usar no cmd para criar um novo app REACT:
+// npx create-react-app my-app
+
+// Inicia a execução do programa:
+// npm start
+
+// Não esquecer de importar a biblioteca REACT:
 import React from 'react';
 import ReactDOM from 'react-dom';
+/*
+// Uso do ReactDOM.render(); para renderizar o app no html:
 
-const name = "Caio Henrique";
-
-const element = (
-	<h1>
-	 Hello {name}
-	</h1>
-	); 
-
-const elementFilho = (
-  <div>
-    <h1>Hello!</h1>
-    <h2>Good to see you here.</h2>
-  </div>
+ReactDOM.render(
+  conteúdo a ser renderizado
+  document.getElementById("root") // chamando tag html;
 );
 
-function Greetings(props){
-  return <h1>Hello, my name is {props.name}. I was born in {props.birth}</h1>
-}
+*/
 
+// Usando JSX:
+const name = "Caio";
+const text = <h1>Olá {name}</h1> // Com {} é possível guardar qualquer expressão JS;
+
+// Use () para quebrar as linhas:
+
+// Uma tag HTML vazia pode ser fechada com < />:
+const image = <img src="URL"/>
+
+//****************************************************************************
+// Elementos REACT:
+const element = (
+  <h1 className="greeting">
+    Hello, world!
+  </h1>
+);
+/*
+const element = React.createElement(
+  'h1',
+  {className: 'greeting'},
+  'Hello, world!'
+); // Os dois códigos são equivalentes, porém o segundo usa um Elemento REACT;
+
+// Nota: esta estrutura está simplificada
+const element = {
+  type: 'h1',
+  props: {
+    className: 'greeting',
+    children: 'Hello, world!'
+  }
+}; // O segundo é compilado neste último código;
+*/
+//**************************************************************************
+
+// Criando um componente função que recebe um prop e retorna o que deve ser renderizado;
+function Welcome(props){
+  return <h1>Hello, I'm {props.name}</h1>
+}
+// Instanciando um componente para uma váriavel
+const hello = <Welcome name="Caio Henrique"/>
+
+// Criando um componente que chama outro componente várias vezes;
 function AllGreetings(){
   return (
     <div>
-      <Greetings name="Caio Henrique" birth="01/06/2006"/>
-      <Greetings name="Kátia Almeida" birth="21/02/1973"/>
-      <Greetings name="Ian Vitor" birth="28/01/2000"/>
+      <Welcome name="Caio Henrique"/>
+      <Welcome name="Kátia Almeida"/>
+      <Welcome name="Ian Vitor"/>
     </div>
   )
 }
 
-const greet = <Greetings name="Caio Henrique" birth="01/06/2006"/>;
+//*************************************************************************
 
-//***************************************************************************************
-const image = <img src="favicon.ico"/>;
-
-/*
-class greetings extends React.Component {
-  render(){
-    <h1>Hello, my name is {props.name}</h1>
-  }
-}*/
-//*****************************************************************************
+// Criando um componente classe colocando um constructor e declarando states:
 class Clock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(),
       name: "Caio Henrique"
     };
   }
-
-  componentDidMount() {
-    this.timerID = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date()
-    });
-  }
-
-  render() {
+render() {
     return (
       <div>
-        <h1>Hello, world!</h1>
-        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+        <h1>Hello, {this.state.name}</h1>
       </div>
     );
   }
 }
 
-function App() {
-  return (
-    <div>
-      <Clock />
-      <Clock />
-      <Clock />
-    </div>
-  );
+// função especial do React que executa após a renderização:
+/*
+componentDidMount(){
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+*/
+// Função especial do React que executa após a classe em que foi declarado for destruída:
+/*
+componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+*/
+// Para chamar algum state dentro da classe se usa a seguinte sintaxe:
+/*
+this.state.atribute
+*/
+// Use setState() para modificar a informação nos states:
+/*
+setState(this.state.name);
+*/
+
+//************************************************************
+// Eventos em React são declarados com camelCase:
+/*
+<button onClick={some_component}>
+  press
+</button>
+*/
+
+class Toggle extends React.Component {
+  constructor(props) {
+    super(props);
+    // Utilize .bind para possibilitar o uso do this. de eventos dentro de classes:
+    this.handleClick = this.handleClick.bind(this);
+  }
 }
-//***********************************************************************
-function HandleClick() {
-  return(
-  <button onClick={Greetings}>
-    press
-  </button>
-  )
-}
-//********************************************************************
+//**************************************************************
+// Usando props:
 function UserGreeting(props) {
   return <h1>Welcome back!</h1>;
 }
@@ -111,14 +144,64 @@ function Greeting(props) {
   }
   return <GuestGreeting />;
 }
+
+//*********************************************************************************************
+// Usando forms em react:
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  // Usando argumento event em handle[event];
+  handleChange(event) {
+    this.setState({value: event.target.value});
+    console.log(event.target.value);
+  }
+
+  handleSubmit(event) {
+    alert('Um nome foi enviado: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Nome:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Enviar" />
+      </form>
+    );
+  }
+}
+// Usando <select>:
+class Select extends React.Component {
+  render() {
+  return(
+      <select>
+        <option value="laranja">Laranja</option>
+        <option value="limao">Limão</option>
+        <option value="coco">Coco</option>
+        <option value="manga">Manga</option>
+      </select>
+    )
+  }
+}
+
 /*
 ReactDOM.render(
   // Try changing to isLoggedIn={true}:
-  <Greeting isLoggedIn={true} />,
+  <Greeting isLoggedIn={false} />,
   document.getElementById('root')
-);*/
+);
+*/
 
 ReactDOM.render(
-	<HandleClick/>,
-	document.getElementById('root')
+  <Select/>,
+  document.getElementById('root')
 );
+
